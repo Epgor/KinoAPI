@@ -1,0 +1,1 @@
+db.Books.insert( {Id: '0'}, {BookName: 'test'}, {Author: 'test'}, {Category: 'test'}, {Price: 'test'})
