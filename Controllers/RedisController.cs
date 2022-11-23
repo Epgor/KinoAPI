@@ -15,15 +15,36 @@ public class RedisController : ControllerBase
 
     [Route("HealthCheck")]
     [HttpGet]
-    public async Task<ActionResult> HealtCheck()
+    public async Task<ActionResult> HealtCheck(/*[FromQuery]int responseType = 0*/)
     {
+        int responseType = 0;
         if(!_redis.IsConnected)
             return BadRequest("Database not found");
 
         var dataBase = _redis.GetDatabase();
         var pong = await dataBase.PingAsync();
-        
-        return Ok($"Database is ready\n Ping:{pong.TotalMilliseconds}ms");
+
+        if(responseType == 0)
+        {
+            Response.Headers["Content-Type"] = "text/plain";
+            return Ok($"Database is ready\n Ping:{pong.TotalMilliseconds}ms");
+        }   
+        else
+        {
+            var response = new ResponseJson() { response = $"Database is ready\n Ping:{pong.TotalMilliseconds}ms" };
+            Response.Headers["Content-Type"] = "application/json";
+            return Ok(response);
+        }
+            
+
     }
 
+}
+
+public class ResponseJson
+{
+    public ResponseJson()
+    {
+    }
+    public string response { get; set; }
 }

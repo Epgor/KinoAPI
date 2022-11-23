@@ -18,7 +18,7 @@ public class CinemaController : ControllerBase
     public async Task<ActionResult<CinemaDTO>> Get()
     {
         var cinema = await _movieService.GetCinema();
-
+        Response.Headers["Content-Type"] = "application/json";
         return Ok(cinema);
     }
 }

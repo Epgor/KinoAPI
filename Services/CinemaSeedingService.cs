@@ -46,7 +46,8 @@ public static class CinemaSeedingService
         for (int day = 0; day < days; day++)
         {
             var seed = 666 + day * 1000;
-            Random random = new Random(seed);
+            Random random = new Random(/*seed*/);
+            seed += random.Next();
             DateTime screenDate = DateTime.Today.AddDays(random.Next(-60, 60));
 
             var screeningDay = new ScreeningDay().Generate(seed, screenDate);
@@ -60,7 +61,7 @@ public static class CinemaSeedingService
         var _ = await _redis.StringSetAsync(
             $"cinemaKey",
             serializedCinema,
-            TimeSpan.FromSeconds(200));
+            TimeSpan.FromMinutes(60));
     }
     private async static Task<double> HealthCheck()
     {

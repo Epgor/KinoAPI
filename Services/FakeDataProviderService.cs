@@ -7,8 +7,8 @@ public static class FakeDataProviderService
 {
     public static Movie Generate(this Movie movie, int seed)
     {
-        Randomizer.Seed = new Random(seed);
-        Random random = new Random(seed);
+        Randomizer.Seed = new Random(/*seed*/);
+        Random random = new Random(/*seed*/);
 
         movie = new Faker<Movie>()
             .RuleFor(p => p.Id, (f, p) => p.Id = Guid.NewGuid())
@@ -16,7 +16,7 @@ public static class FakeDataProviderService
             .RuleFor(p => p.Genre, (f, p) => f.Music.Genre())
             .RuleFor(p => p.Length, (f, p) => p.Length = TimeSpan.FromSeconds(random.Next(3000, 10000)))
             .RuleFor(p => p.TicketPrice, (f, p) => p.TicketPrice = random.Next(10, 800)/10f)
-            .RuleFor(p => p.ImageUrl, (f, p) => p.ImageUrl = "url")
+            .RuleFor(p => p.ImageUrl, (f, p) => p.ImageUrl = "https://www.creavea.com/produits/82320-l/image-3d-divers-zen-n2-30-x-30-cm-l.jpg")
             .Generate(1)
             .First();
         return movie;
@@ -28,8 +28,8 @@ public static class FakeDataProviderService
                                                int occupiedPremiumSeats,
                                                DateTime startDateTime)
     {
-        Randomizer.Seed = new Random(seed);
-        Random random = new Random(seed);
+        Randomizer.Seed = new Random(/*seed*/);
+        Random random = new Random(/*seed*/);
 
         movieSession = new Faker<MovieSession>()
             .RuleFor(p => p.Id, (f, p) => p.Id = Guid.NewGuid())
@@ -44,12 +44,12 @@ public static class FakeDataProviderService
 
     public static CinemaHall Generate(this CinemaHall cinemaHall, int seed, DateTime dateDay, int quantity)
     {
-        Randomizer.Seed = new Random(seed);
-        Random random = new Random(seed);
+        Randomizer.Seed = new Random(/*seed*/);
+        Random random = new Random(/*seed*/);
 
         var totalSeats = random.Next(80, 200);
 
-        var totalPremiumSeats = random.Next(totalSeats / 8);
+        var totalPremiumSeats = random.Next(2,totalSeats / 8);
 
         cinemaHall = new Faker<CinemaHall>()
             .RuleFor(p => p.Id, (f, p) => p.Id = Guid.NewGuid())
@@ -66,8 +66,8 @@ public static class FakeDataProviderService
 
     public static ScreeningDay Generate(this ScreeningDay screeningDay, int seed, DateTime screenDate)
     {
-        Randomizer.Seed = new Random(seed);
-        Random random = new Random(seed);
+        Randomizer.Seed = new Random(/*seed*/);
+        Random random = new Random(/*seed*/);
 
         int moviesPerDay = 5;
         int numberOfHalls = 10;
@@ -112,7 +112,8 @@ public static class FakeDataProviderService
         for(int i = 0; i<moviesPerDay; i++)
         {
             var localSeed = seed + i;
-            Random random = new Random(localSeed);
+            Random random = new Random(/*localSeed*/);
+            localSeed += random.Next();
 
             var seatsTaken = random.Next(1, totalSeats);
             var premiumSeatsTaken = random.Next(1, totalPremiumSeats);

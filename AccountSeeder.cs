@@ -22,7 +22,7 @@ namespace KinoAPI
                     var _ = await db.StringSetAsync(
                         $"account_{user.Name}",
                         $"{user.Password}_{user.Role}",
-                        TimeSpan.FromSeconds(1800));
+                        TimeSpan.FromMinutes(30));
                 }
             }
         }
